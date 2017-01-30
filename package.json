@@ -1,0 +1,11 @@
+{
+  "name": "gulp-build-v1",
+  "version": "1.0.0",
+  "description": "Gulp Porject",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Justin Coen",
+  "license": "ISC"
+}
