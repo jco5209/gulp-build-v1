@@ -8,6 +8,7 @@ const cleanCSS = require('gulp-clean-css');
 const sass = require('gulp-sass');
 const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
+const eslint = require('gulp-eslint');
 const del = require('del');
 
 
@@ -17,6 +18,12 @@ gulp.task('clean', () => {
   });
 });
 
+gulp.task('lint', () => {
+  return gulp.src('js/circle/*.js')
+    .pipe(eslint())
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+})
 
 gulp.task('scripts', () => {
   return gulp.src('js/circle/*.js')
@@ -45,6 +52,6 @@ gulp.task('imageOpt', () =>
         .pipe(gulp.dest('dist/content'))
 );
 
-gulp.task('build', ['clean', 'scripts', 'styles', 'imageOpt']);
+gulp.task('build', ['lint', 'clean', 'scripts', 'styles', 'imageOpt']);
 
 gulp.task('default', ['build']);
