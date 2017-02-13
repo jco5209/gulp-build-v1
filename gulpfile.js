@@ -11,13 +11,7 @@ const imagemin = require('gulp-imagemin');
 const eslint = require('gulp-eslint');
 const del = require('del');
 
-
-gulp.task('clean', () => {
-  del('dist/*').then(paths => {
-      console.log('Deleted files and folders:\n', paths.join('\n'));
-  });
-});
-
+// Linting tool for JS files
 gulp.task('lint', () => {
   return gulp.src('js/circle/*.js')
     .pipe(eslint())
@@ -25,6 +19,16 @@ gulp.task('lint', () => {
     .pipe(eslint.failAfterError());
 })
 
+
+// Clean distribution folder
+gulp.task('clean', () => {
+  del('dist/*').then(paths => {
+      console.log('Deleted files and folders:\n', paths.join('\n'));
+  });
+});
+
+
+// Concat JS files - minify JS files - create sourcemap
 gulp.task('scripts', () => {
   return gulp.src('js/circle/*.js')
     .pipe(sourcemaps.init())
@@ -32,10 +36,11 @@ gulp.task('scripts', () => {
       .pipe(gulp.dest('dist/scripts'))
       .pipe(uglify())
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('dist/scripts'));
+    .pipe(gulp.dest('dist/scripts'))
 });
 
 
+// Compile sass to css - minify css
 gulp.task('styles', () => {
 	return gulp.src('./sass/**/*.scss')
 		.pipe(sourcemaps.init())
@@ -46,11 +51,14 @@ gulp.task('styles', () => {
 		.pipe(gulp.dest('dist/styles'))
 });
 
+
+// Optimize images
 gulp.task('imageOpt', () =>
     gulp.src('images/*')
         .pipe(imagemin())
         .pipe(gulp.dest('dist/content'))
 );
+
 
 gulp.task('build', ['lint', 'clean', 'scripts', 'styles', 'imageOpt']);
 
