@@ -10,6 +10,7 @@ const rename = require('gulp-rename');
 const imagemin = require('gulp-imagemin');
 const eslint = require('gulp-eslint');
 const del = require('del');
+const connect = require('gulp-connect');
 
 // Linting tool for JS files
 gulp.task('lint', () => {
@@ -58,6 +59,27 @@ gulp.task('imageOpt', () =>
         .pipe(imagemin())
         .pipe(gulp.dest('dist/content'))
 );
+
+// Gulp serve
+gulp.task('serve', ['watch'], () => {
+  connect.server({
+    port: 3000,
+    livereload: true
+  });
+});
+
+// Gulp watch
+gulp.task('watch', ['build'], () => {
+	gulp.watch('./js/circle/*.js', ['js'])
+});
+
+// js
+gulp.task('js', () => {
+	gulp.src('./js/circle/*.js')
+		.pipe(connect.reload());
+})
+
+
 
 
 gulp.task('build', ['lint', 'clean', 'scripts', 'styles', 'imageOpt']);
